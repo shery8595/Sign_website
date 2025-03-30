@@ -369,16 +369,17 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
             position: relative;
+            cursor: pointer;
         }
         
-        .team-member:hover .team-member-photo {
+        .team-member-photo:hover {
             transform: scale(1.1);
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
                         0 0 30px rgba(255, 255, 255, 0.6);
             filter: brightness(1.1);
         }
         
-        .dark-mode .team-member:hover .team-member-photo {
+        .dark-mode .team-member-photo:hover {
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.6),
                         0 0 30px rgba(255, 255, 255, 0.4);
         }
@@ -402,6 +403,11 @@
         .team-member-x {
             font-size: 0.9rem;
             opacity: 0.8;
+            cursor: pointer;
+        }
+        
+        .team-member-x:hover {
+            text-decoration: underline;
         }
         
         .dark-mode .team-member {
@@ -577,42 +583,54 @@
     <div class="team-section" id="teamSection">
         <div class="team-left">
             <div class="team-member">
-                <img src="images/xin_yan.jpg" alt="Leader" class="team-member-photo">
+                <img src="images/xin_yan.jpg" alt="Leader" class="team-member-photo" 
+                     data-description="Ceo and Chief reply guy. Our leader who always leads from the front."
+                     data-xprofile="https://twitter.com/realyanxin">
                 <div class="team-member-name">Xin Yan</div>
                 <div class="team-member-role">Leader</div>
-                <div class="team-member-x">@realyanxin</div>
+                <div class="team-member-x" onclick="window.open('https://twitter.com/realyanxin', '_blank')">@realyanxin</div>
             </div>
             <div class="team-member">
-                <img src="images/Zoe_chan.jpg" alt="CM" class="team-member-photo">
+                <img src="images/Zoe_chan.jpg" alt="CM" class="team-member-photo"
+                     data-description="The most Cutest Mod in all of Crypto Twitter. Responsible for the distribution of SBTs."
+                     data-xprofile="https://twitter.com/0xzoe_im">
                 <div class="team-member-name">Zoe Chan</div>
                 <div class="team-member-role">CM</div>
-                <div class="team-member-x">@0xzoe_im</div>
+                <div class="team-member-x" onclick="window.open('https://twitter.com/0xzoe_im', '_blank')">@0xzoe_im</div>
             </div>
             <div class="team-member">
-                <img src="images/Big_Gids.jpg" alt="Builder" class="team-member-photo">
+                <img src="images/Big_Gids.jpg" alt="Builder" class="team-member-photo"
+                     data-description="A true Builder through and through. He will show you all of the Signs."
+                     data-xprofile="https://twitter.com/_biggids">
                 <div class="team-member-name">Big Gids</div>
                 <div class="team-member-role">Builder</div>
-                <div class="team-member-x">@_biggids</div>
+                <div class="team-member-x" onclick="window.open('https://twitter.com/_biggids', '_blank')">@_biggids</div>
             </div>
         </div>
         <div class="team-right">
             <div class="team-member">
-                <img src="images/jack_xu.jpg" alt="Co-Leader" class="team-member-photo">
+                <img src="images/jack_xu.jpg" alt="Co-Leader" class="team-member-photo"
+                     data-description="Our Co-leader who scalped 30 Ps5 in 2021 to help for @EthSign at the start, Do i have to say anything more."
+                     data-xprofile="https://twitter.com/headcpx">
                 <div class="team-member-name">Jack Xu</div>
                 <div class="team-member-role">Co-Leader</div>
-                <div class="team-member-x">@headcpx</div>
+                <div class="team-member-x" onclick="window.open('https://twitter.com/headcpx', '_blank')">@headcpx</div>
             </div>
             <div class="team-member">
-                <img src="images/Tajudeen.jpg" alt="Builder" class="team-member-photo">
+                <img src="images/Tajudeen.jpg" alt="Builder" class="team-member-photo"
+                     data-description="Also known as the 'King of Sign', Building the EthSign Dynasty from the ground up."
+                     data-xprofile="https://twitter.com/Tajudeen_10">
                 <div class="team-member-name">Tajudeen</div>
                 <div class="team-member-role">Builder</div>
-                <div class="team-member-x">@Tajudeen_10</div>
+                <div class="team-member-x" onclick="window.open('https://twitter.com/Tajudeen_10', '_blank')">@Tajudeen_10</div>
             </div>
             <div class="team-member">
-                <img src="images/thoth.jpg" alt="Contributor" class="team-member-photo">
+                <img src="images/thoth.jpg" alt="Contributor" class="team-member-photo"
+                     data-description="A big contributor of Sign and believing in Sign since the beginning. One of the true Og's."
+                     data-xprofile="https://twitter.com/Trojan_Bus1">
                 <div class="team-member-name">Thoth</div>
                 <div class="team-member-role">Contributor</div>
-                <div class="team-member-x">@Trojan_Bus1</div>
+                <div class="team-member-x" onclick="window.open('https://twitter.com/Trojan_Bus1', '_blank')">@Trojan_Bus1</div>
             </div>
         </div>
     </div>
@@ -953,6 +971,38 @@
                     
                     const answer = btn.getAttribute('data-answer');
                     document.getElementById('subtitle').textContent = answer;
+                });
+            });
+
+            // Add hover and click events for team member photos
+            document.querySelectorAll('.team-member-photo').forEach(photo => {
+                photo.addEventListener('mouseenter', () => {
+                    const description = photo.getAttribute('data-description');
+                    document.getElementById('subtitle').textContent = description;
+                });
+                
+                photo.addEventListener('mouseleave', () => {
+                    const scrollY = window.scrollY || window.pageYOffset;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (scrollY >= windowHeight * 1.2 && scrollY < windowHeight * 1.8) {
+                        document.getElementById('subtitle').textContent = "Meet Our Team";
+                    }
+                });
+                
+                photo.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const xProfile = photo.getAttribute('data-xprofile');
+                    if (xProfile) {
+                        window.open(xProfile, '_blank');
+                    }
+                });
+            });
+
+            // Add click events for X handles
+            document.querySelectorAll('.team-member-x').forEach(xHandle => {
+                xHandle.addEventListener('click', (e) => {
+                    e.stopPropagation();
                 });
             });
 
