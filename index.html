@@ -314,12 +314,17 @@
             z-index: 5;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease, z-index 0s ease 0.5s;
         }
         
         .team-section.visible {
             opacity: 1;
             pointer-events: auto;
+            z-index: 5;
+        }
+        
+        .team-section:not(.visible) {
+            z-index: -1;
         }
         
         .team-left, .team-right {
@@ -372,19 +377,19 @@
             cursor: pointer;
         }
         
-        .team-member-photo:hover {
+        .team-section.visible .team-member-photo:hover {
             transform: scale(1.1);
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
                         0 0 30px rgba(255, 255, 255, 0.6);
             filter: brightness(1.1);
         }
         
-        .dark-mode .team-member-photo:hover {
+        .dark-mode .team-section.visible .team-member-photo:hover {
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.6),
                         0 0 30px rgba(255, 255, 255, 0.4);
         }
         
-        .team-member:hover {
+        .team-section.visible .team-member:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.05);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -406,7 +411,7 @@
             cursor: pointer;
         }
         
-        .team-member-x:hover {
+        .team-section.visible .team-member-x:hover {
             text-decoration: underline;
         }
         
@@ -415,7 +420,7 @@
             border: 2px solid rgba(255, 255, 255, 0.2);
         }
         
-        .dark-mode .team-member:hover {
+        .dark-mode .team-section.visible .team-member:hover {
             background: rgba(0, 0, 0, 0.4);
         }
         
@@ -977,21 +982,36 @@
             // Add hover and click events for team member photos
             document.querySelectorAll('.team-member-photo').forEach(photo => {
                 photo.addEventListener('mouseenter', () => {
+                    const teamSection = document.getElementById('teamSection');
+                    if (!teamSection.classList.contains('visible')) return;
+                    
                     const description = photo.getAttribute('data-description');
                     document.getElementById('subtitle').textContent = description;
                 });
                 
                 photo.addEventListener('mouseleave', () => {
+                    const teamSection = document.getElementById('teamSection');
+                    if (!teamSection.classList.contains('visible')) return;
+                    
                     const scrollY = window.scrollY || window.pageYOffset;
                     const windowHeight = window.innerHeight;
                     
-                    if (scrollY >= windowHeight * 1.2 && scrollY < windowHeight * 1.8) {
+                    if (scrollY > windowHeight * 0.3 && scrollY < windowHeight * 1.2) {
+                        document.getElementById('subtitle').textContent = "Select Your Question";
+                    } else if (scrollY >= windowHeight * 1.2 && scrollY < windowHeight * 1.8) {
                         document.getElementById('subtitle').textContent = "Meet Our Team";
+                    } else if (scrollY >= windowHeight * 1.8) {
+                        document.getElementById('subtitle').textContent = "Click to Choose Your Role";
+                    } else {
+                        document.getElementById('subtitle').textContent = "👀🧡🐉 Welcome to Sign 👀🧡🐉";
                     }
                 });
                 
                 photo.addEventListener('click', (e) => {
                     e.preventDefault();
+                    const teamSection = document.getElementById('teamSection');
+                    if (!teamSection.classList.contains('visible')) return;
+                    
                     const xProfile = photo.getAttribute('data-xprofile');
                     if (xProfile) {
                         window.open(xProfile, '_blank');
@@ -1003,6 +1023,9 @@
             document.querySelectorAll('.team-member-x').forEach(xHandle => {
                 xHandle.addEventListener('click', (e) => {
                     e.stopPropagation();
+                    const teamSection = document.getElementById('teamSection');
+                    if (!teamSection.classList.contains('visible')) return;
+                    // Click handler is already defined in HTML via onclick
                 });
             });
 
